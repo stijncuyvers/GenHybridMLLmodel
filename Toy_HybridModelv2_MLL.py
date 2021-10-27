@@ -79,7 +79,7 @@ def detect_peaks(x, mph=None, mpd=1, threshold=0, edge='rising', kpsh=False, val
     .. [1] http://nbviewer.ipython.org/github/demotu/BMC/blob/master/notebooks/DetectPeaks.ipynb
 
     """
-    print(x)
+    # print(x)
     x = np.atleast_1d(x).astype('float64')
     if x.size < 3:
         return np.array([], dtype=int)
@@ -142,7 +142,7 @@ def find_localmaxima(x, mph):
 
 def sech_functiondef(x, P0, x1, x2):
     # hyperbolic sech^2 function
-    return P0 * ((1 / np.cosh((x1 - x) / x2)) ** 2)
+    return P0 * ((2 * np.exp(-np.abs(x1 - x) / x2) / (1 + np.exp(-2 * np.abs(x1 - x) / x2))) ** 2)
 
 
 def getspectrum(dt, lambda0, OUTPUTmonitor, get_envelope_and_phase=False):
@@ -402,8 +402,6 @@ class TWM:
         sigma_N = 1e-5
         self.N[0][:] = np.real([N_eq for j in range(self.n_o_spacesteps)] + sigma_N * (np.random.rand(1, self.n_o_spacesteps)))
 
-        print('N equil')
-        print(N_eq)
 
     def step(self, i, leftinput, rightinput):
         # Traveling-wave model - iterative step
